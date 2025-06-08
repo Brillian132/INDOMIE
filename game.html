@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indomie - Mini Game</title>
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-image: url('https://i.pinimg.com/736x/fe/24/fd/fe24fdbb0d2d33ba137ab3ba44f2fe22.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 19px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 3;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #E31937;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #E31937;
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .decorative-image {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 150px;
+            height: auto;
+            z-index: 1;
+            animation: floatImage 4s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-header {
+            margin-bottom: 2rem;
+        }
+
+        .game-title {
+            color: var(--secondary);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            animation: bounceTitle 2s infinite;
+        }
+
+        .game-description {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.5s;
+        }
+
+        .game-area {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: popGame 0.8s ease forwards;
+        }
+
+        .game-score {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .game-board {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(180deg, #87CEEB, #E0F6FF);
+            border: 4px solid var(--secondary);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/03/Cloud-PNG-Image.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.8;
+            animation: floatCloud 20s linear infinite;
+        }
+
+        .cloud:nth-child(1) { top: 30px; left: -100px; animation-delay: 0s; }
+        .cloud:nth-child(2) { top: 100px; left: -150px; animation-delay: 5s; width: 80px; }
+        .cloud:nth-child(3) { top: 200px; left: -120px; animation-delay: 10s; }
+
+        .indomie-pack {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            background-image: url('https://www.indomie.com/uploads/product/indomie-mi-goreng-special_thumb_094906798.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            z-index: 5;
+            animation: wobbleIn 0.6s ease;
+        }
+
+        .indomie-pack:hover {
+            transform: scale(1.15);
+        }
+
+        .indomie-pack.caught {
+            animation: burst 0.5s forwards;
+        }
+
+        .basket {
+            position: absolute;
+            bottom: 15px;
+            width: 120px;
+            height: 70px;
+            background-image: url('https://www.freepnglogos.com/uploads/basket-png/basket-png-transparent-images-png-only-28.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: left 0.15s ease, transform 0.15s ease;
+            z-index: 5;
+        }
+
+        .basket.moving-left {
+            transform: rotate(-7deg);
+        }
+
+        .basket.moving-right {
+            transform: rotate(7deg);
+        }
+
+        .basket.caught {
+            animation: bounceBasket 0.3s ease;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-start {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+
+        .btn-start:hover {
+            background-color: #FFC000;
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 6px 15px rgba(255,192,0,0.5);
+        }
+
+        .btn-start:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-reset {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #C01030;
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 6px 15px rgba(227,25,55,0.5);
+        }
+
+        .game-timer {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulseTimer 1s infinite;
+        }
+
+        .game-over {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            border-radius: 15px;
+            transition: top 0.7s ease;
+        }
+
+        .game-over.active {
+            top: 0;
+        }
+
+        .game-over h2 {
+            color: var(--secondary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounceText 1s infinite;
+        }
+
+        .game-over p {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-over p span#final-score {
+            color: var(--accent);
+            animation: pulseScore 1.5s infinite;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 11;
+            pointer-events: none;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--secondary);
+            opacity: 0.8;
+            animation: fallConfetti 2s ease-in infinite;
+        }
+
+        .prize-message {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--secondary);
+            color: var(--dark);
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: none;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInPrize 0.7s ease forwards;
+            position: relative;
+        }
+
+        .prize-message::before {
+            content: '★';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--primary);
+            animation: starBurst 1s infinite;
+        }
+
+        @keyframes bounceTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes popGame {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        @keyframes wobbleIn {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(10deg); opacity: 1; }
+            75% { transform: scale(1.1) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5) rotate(15deg); opacity: 0.5; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes bounceBasket {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulseTimer {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes bounceText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseScore {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes slideInPrize {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes starBurst {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.3); }
+        }
+
+        @keyframes fallConfetti {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+                font-size: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .decorative-image {
+                width: 100px;
+                left: 10px;
+            }
+
+            .game-container {
+                padding: 1rem;
+            }
+
+            .game-title {
+                font-size: 2.2rem;
+            }
+
+            .game-board {
+                height: 300px;
+            }
+
+            .basket {
+                width: 100px;
+                height: 60px;
+            }
+
+            .indomie-pack {
+                width: 60px;
+                height: 80px;
+            }
+
+            .game-over h2 {
+                font-size: 2.5rem;
+            }
+
+            .game-over p {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="#">MINI GAME</a>
+                <a href="event.html">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <img src="https://i.pinimg.com/736x/71/53/36/7153362f91b9525a76c922fa5f2891ad.jpg" alt="Indomie Dekorasi" class="decorative-image">
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">Indomie Catch Game</h1>
+            <p class="game-description">Tangkap Indomie sebanyak-banyaknya dalam waktu 30 detik!</p>
+        </div>
+        
+        <div class="game-area">
+            <div class="game-score">
+                <span>Skor: <span id="score">0</span></span>
+                <span>Rekor: <span id="high-score">0</span></span>
+            </div>
+            
+            <div class="game-timer" id="timer">30</div>
+            
+            <div class="game-board" id="game-board">
+                <div class="parallax-bg">
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                </div>
+                <div class="basket" id="basket"></div>
+                <div class="game-over" id="game-over">
+                    <div class="confetti" id="confetti"></div>
+                    <h2>Game Over!</h2>
+                    <p>Skor Anda: <span id="final-score">0</span></p>
+                    <button class="btn btn-reset" id="play-again">Main Lagi</button>
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="btn btn-start" id="start-btn">Mulai Game</button>
+                <button class="btn btn-reset" id="reset-btn">Reset</button>
+            </div>
+            
+            <div class="prize-message" id="prize-message">
+                Selamat! Anda mendapatkan 10 Poin Indomie! Tukarkan poinmu dengan hadiah menarik!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const gameBoard = document.getElementById('game-board');
+        const basket = document.getElementById('basket');
+        const scoreDisplay = document.getElementById('score');
+        const highScoreDisplay = document.getElementById('high-score');
+        const timerDisplay = document.getElementById('timer');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const gameOverScreen = document.getElementById('game-over');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const playAgainBtn = document.getElementById('play-again');
+        const prizeMessage = document.getElementById('prize-message');
+        const confettiContainer = document.getElementById('confetti');
+
+        let score = 0;
+        let highScore = localStorage.getItem('indomieHighScore') || 0;
+        let timeLeft = 30;
+        let gameInterval;
+        let timerInterval;
+        let isGameRunning = false;
+        let basketPosition = (gameBoard.offsetWidth - basket.offsetWidth) / 2;
+        let lastBasketPosition = basketPosition;
+
+        highScoreDisplay.textContent = highScore;
+
+        function createConfetti() {
+            for (let i = 0; i < 20; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = `${Math.random() * 100}%`;
+                piece.style.animationDelay = `${Math.random() * 1}s`;
+                piece.style.backgroundColor = ['var(--primary)', 'var(--secondary)', 'var(--accent)'][Math.floor(Math.random() * 3)];
+                confettiContainer.appendChild(piece);
+                setTimeout(() => piece.remove(), 2000);
+            }
+        }
+
+        gameBoard.addEventListener('mousemove', (e) => {
+            if (!isGameRunning) return;
+            
+            const gameBoardRect = gameBoard.getBoundingClientRect();
+            const mouseX = e.clientX - gameBoardRect.left;
+            
+            basketPosition = Math.max(
+                0, 
+                Math.min(
+                    mouseX - basket.offsetWidth / 2, 
+                    gameBoard.offsetWidth - basket.offsetWidth
+                )
+            );
+            
+            basket.style.left = `${basketPosition}px`;
+
+            if (basketPosition < lastBasketPosition) {
+                basket.classList.remove('moving-right');
+                basket.classList.add('moving-left');
+            } else if (basketPosition > lastBasketPosition) {
+                basket.classList.remove('moving-left');
+                basket.classList.add('moving-right');
+            } else {
+                basket.classList.remove('moving-left', 'moving-right');
+            }
+            lastBasketPosition = basketPosition;
+        });
+
+        gameBoard.addEventListener('touchmove', (e) => {
+            if (!isGameRunning) return;
+            e.preventDefault();
+            
+            const gameBoardRect = gameBoard.getBoundingClientRect();
+            const touchX = e.touches[0].clientX - gameBoardRect.left;
+            
+            basketPosition = Math.max(
+                0, 
+                Math.min(
+                    touchX - basket.offsetWidth / 2, 
+                    gameBoard.offsetWidth - basket.offsetWidth
+                )
+            );
+            
+            basket.style.left = `${basketPosition}px`;
+
+            if (basketPosition < lastBasketPosition) {
+                basket.classList.remove('moving-right');
+                basket.classList.add('moving-left');
+            } else if (basketPosition > lastBasketPosition) {
+                basket.classList.remove('moving-left');
+                basket.classList.add('moving-right');
+            } else {
+                basket.classList.remove('moving-left', 'moving-right');
+            }
+            lastBasketPosition = basketPosition;
+        });
+
+        function createIndomie() {
+            if (!isGameRunning) return;
+            
+            const indomie = document.createElement('div');
+            indomie.className = 'indomie-pack';
+            
+            const xPos = Math.random() * (gameBoard.offsetWidth - 70);
+            indomie.style.left = `${xPos}px`;
+            indomie.style.top = '0px';
+            
+            gameBoard.appendChild(indomie);
+            
+            let fallSpeed = 2.5 + Math.random() * 3.5;
+            let yPos = 0;
+            
+            const fallInterval = setInterval(() => {
+                if (!isGameRunning) {
+                    clearInterval(fallInterval);
+                    return;
+                }
+                
+                yPos += fallSpeed;
+                indomie.style.top = `${yPos}px`;
+                
+                const indomieRect = indomie.getBoundingClientRect();
+                const basketRect = basket.getBoundingClientRect();
+                
+                if (
+                    yPos + indomie.offsetHeight >= gameBoard.offsetHeight - basket.offsetHeight - 15 &&
+                    indomieRect.right > basketRect.left &&
+                    indomieRect.left < basketRect.right
+                ) {
+                    indomie.classList.add('caught');
+                    score++;
+                    scoreDisplay.textContent = score;
+                    basket.classList.add('caught');
+                    setTimeout(() => basket.classList.remove('caught'), 300);
+                    
+                    setTimeout(() => indomie.remove(), 500);
+                    clearInterval(fallInterval);
+                }
+                
+                if (yPos >= gameBoard.offsetHeight) {
+                    indomie.remove();
+                    clearInterval(fallInterval);
+                }
+            }, 20);
+        }
+
+        function startGame() {
+            if (isGameRunning) return;
+            
+            isGameRunning = true;
+            score = 0;
+            scoreDisplay.textContent = score;
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft;
+            
+            const gameArea = document.querySelector('.game-area');
+            gameArea.style.animation = 'none';
+            gameArea.offsetHeight;
+            gameArea.style.animation = 'popGame 0.8s ease forwards';
+            
+            gameOverScreen.classList.remove('active');
+            gameOverScreen.style.display = 'none';
+            prizeMessage.style.display = 'none';
+            confettiContainer.innerHTML = '';
+            
+            startBtn.disabled = true;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+            
+            gameInterval = setInterval(createIndomie, 700);
+        }
+
+        function endGame() {
+            isGameRunning = false;
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+            
+            startBtn.disabled = false;
+            finalScoreDisplay.textContent = score;
+            
+            if (score > highScore) {
+                highScore = score;
+                highScoreDisplay.textContent = highScore;
+                localStorage.setItem('indomieHighScore', highScore);
+                
+                if (score >= 15) {
+                    prizeMessage.style.display = 'block';
+                    const pointsEarned = 10;
+                    const date = new Date().toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    const gamePoints = {
+                        product: 'Game: Indomie Catch',
+                        date: date,
+                        amount: 'N/A',
+                        points: pointsEarned
+                    };
+                    let existingPoints = JSON.parse(localStorage.getItem('indomiePoints') || '[]');
+                    existingPoints.push(gamePoints);
+                    localStorage.setItem('indomiePoints', JSON.stringify(existingPoints));
+                }
+            }
+            
+            gameOverScreen.style.display = 'flex';
+            setTimeout(() => {
+                gameOverScreen.classList.add('active');
+                createConfetti();
+            }, 10);
+        }
+
+        function resetGame() {
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+            
+            isGameRunning = false;
+            score = 0;
+            scoreDisplay.textContent = score;
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft;
+            
+            const gameArea = document.querySelector('.game-area');
+            gameArea.style.animation = 'none';
+            gameArea.offsetHeight;
+            gameArea.style.animation = 'popGame 0.8s ease forwards';
+            
+            startBtn.disabled = false;
+            
+            gameOverScreen.classList.remove('active');
+            gameOverScreen.style.display = 'none';
+            prizeMessage.style.display = 'none';
+            confettiContainer.innerHTML = '';
+            
+            document.querySelectorAll('.indomie-pack').forEach(pack => pack.remove());
+        }
+
+        startBtn.addEventListener('click', startGame);
+        resetBtn.addEventListener('click', resetGame);
+        playAgainBtn.addEventListener('click', () => {
+            resetGame();
+            startGame();
+        });
+
+        basket.style.left = `${basketPosition}px`;
+    </script>
+</body>
+</html>

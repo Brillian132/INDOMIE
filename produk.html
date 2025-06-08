@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indomie - Produk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #A1121B;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+           height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: none;
+            cursor: pointer;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .checkout-btn:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .flash-sale {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--light);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .flash-sale-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: 0px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .flash-sale h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background-color: rgba(0,0,0,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .countdown-item {
+            background-color: transparent;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            min-width: 40px;
+            text-align: center;
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: normal;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 500px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px auto;
+            height: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--light));
+            border-radius: 10px;
+            width: 70%;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '70% Terjual';
+            position: absolute;
+            right: -50px;
+            top: -3px;
+            font-size: 0.8rem;
+            color: var(--light);
+            font-weight: bold;
+        }
+
+        .products {
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .section-title p {
+            color: var(--light);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        .product-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 2;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .badge {
+            transform: scale(1.05);
+        }
+
+        .best-seller {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 2;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        }
+
+        .product-img {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease-out;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+        }
+
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .rating {
+            color: var(--secondary);
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .rating span {
+            color: #666;
+            margin-left: 5px;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--light);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transform: scale(1.02);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--accent);
+        }
+
+        .quantity-btn:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .quantity-display {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            width: 40px;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+        }
+
+        .close-btn:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .checkout-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-table th,
+        .checkout-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .checkout-table th {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .checkout-table td {
+            color: var(--dark);
+        }
+
+        .total-row {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 100;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .floating-cart.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .cart-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--light);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transform: scale(1.1) rotate(-10deg);
+        }
+
+        .cart-btn:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--secondary);
+            color: var(--dark);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .cart-btn.added {
+            animation: bounce 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            align-items: start;
+        }
+
+        .footer-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-column ul li a:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--light);
+            background-color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .social-links a:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .flash-sale-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column ul li {
+                justify-content: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .checkout-table {
+                font-size: 0.9rem;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-actions .btn {
+                width: 100%;
+            }
+
+            .badge, .best-seller {
+                padding: 3px 10px;
+                font-size: 0.7rem;
+            }
+            
+            .floating-cart {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .countdown-item {
+                min-width: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .countdown-item span {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="game.html">MINI GAME</a>
+                <a href="event.html">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <section class="flash-sale">
+        <div class="flash-sale-content">
+            <h2><i class="fas fa-bolt"></i> FLASH SALE! Harga Spesial Hari Ini</h2>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="countdown" role="timer" aria-label="Flash sale countdown timer">
+                <div class="countdown-item">
+                    <div id="hours">00</div>
+                    <span>Jam</span>
+                </div>
+                <div class="countdown-item">
+                    <div id="minutes">00</div>
+                    <span>Menit</span>
+                </div>
+                <div class="countdown-item">
+                    <div id="seconds">00</div>
+                    <span>Detik</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <div class="section-title">
+            <h2>PRODUK INDOMIE</h2>
+            <p>Jelajahi berbagai varian rasa Indomie yang lezat dan nikmat. Promo flash sale berlaku untuk pembelian hari ini saja!</p>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="badge">DISKON 15%</div>
+                <div class="best-seller">BEST SELLER</div>
+                <div class="product-img">
+                    <img src="https://www.indomie.com/uploads/product/indomie-mi-goreng-special_thumb_094906798.png" alt="Indomie Mi Goreng">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Mi Goreng</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.5/5)</span>
+                    </div>
+                    <p>Rasa original yang melegenda dengan perpaduan bumbu gurih dan manis, cocok untuk segala suasana.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 2.800</span>
+                        <span class="original-price">Rp 3.200</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="1">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="1">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">DISKON 10%</div>
+                <div class="product-img">
+                    <img src="https://www.indomie.com/uploads/product/indomie-mi-goreng-barbeque-chicken-flavour_thumb_170302372.png" alt="Indomie Mi Goreng Barbeque Chicken">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Mi Goreng Barbeque Chicken</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.2/5)</span>
+                    </div>
+                    <p>Rasa ayam panggang yang kaya dengan aroma smoky, memberikan sensasi BBQ yang autentik.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 2.600</span>
+                        <span class="original-price">Rp 3.000</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="2">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="2">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">DISKON 10%</div>
+                <div class="product-img">
+                    <img src="https://www.indomie.com/uploads/product/indomie-mi-goreng-hot-spicy_thumb_113950389.png" alt="Indomie Mi Goreng Hot & Spicy">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Mi Goreng Hot & Spicy</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.3/5)</span>
+                    </div>
+                    <p>Pedas menggigit dengan cita rasa khas Indomie, cocok untuk pecinta makanan pedas.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 2.600</span>
+                        <span class="original-price">Rp 3.000</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="3">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="3">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">DISKON 15%</div>
+                <div class="product-img">
+                    <img src="https://i.pinimg.com/736x/51/b9/15/51b915df363790d94e30a37cefa6b78b.jpg" alt="Indomie Soto">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Rasa Ayam Panggang</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.0/5)</span>
+                    </div>
+                    <p>Nikmati sensasi mie instan dalam ukuran jumbo dengan rasa ayam panggang yang menggoda selera. Dibuat dengan mie berkualitas tinggi dan bumbu spesial ayam panggang yang kaya rempah.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 2.400</span>
+                        <span class="original-price">Rp 2.800</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="4">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="4">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">DISKON 12%</div>
+                <div class="product-img">
+                    <img src="https://www.indomie.com/uploads/product/indomie-mi-goreng-cabe-ijo-flavour_thumb_145129182.png" alt="Indomie Ayam Bawang">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Cabe Ijo</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.1/5)</span>
+                    </div>
+                    <p>Salah satu produk mie instan goreng yang paling legendaris. Disukai oleh semua lapisan usia dan kalangan. Rasa nikmat dan gurih. Disajikan dengan kecap manis, bawang goreng, dan saus cabe. Cocok dimakan di mana saja dan kapan saja.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 2.200</span>
+                        <span class="original-price">Rp 2.500</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="5">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="5">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">DISKON 10%</div>
+                <div class="best-seller">BEST SELLER</div>
+                <div class="product-img">
+                    <img src="https://www.indomie.com/uploads/product/indomie-special-fried-curly-noodles_thumb_173147107.png" alt="Indomie Jumbo Mi Goreng">
+                </div>
+                <div class="product-info">
+                    <h3>Indomie Special Fried Curly Noodles</h3>
+                    <div class="rating">
+                        ★★★★☆ <span>(4.6/5)</span>
+                    </div>
+                    <p>Mie keriting adalah bagian dari varian premium Indomie dengan tekstur yang lebih lembut dan bentuk mie yang datar. Indomie Mi Goreng Keriting Spesial menawarkan rasa lezat yang sama seperti Indomie Mi Goreng klasik dengan tambahan keriting untuk pengalaman kuliner yang berbeda.</p>
+                    <div class="price">
+                        <span class="current-price">Rp 4.500</span>
+                        <span class="original-price">Rp 5.000</span>
+                    </div>
+                    <div class="buy-container">
+                        <button class="btn buy-now" data-product-id="6">Beli Sekarang</button>
+                        <div class="quantity-selector" style="display: none;" data-product-id="6">
+                            <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                            <span class="quantity-display" aria-live="polite">1</span>
+                            <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-cart" id="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="floating-cart-count">0</span> items
+        <span id="floating-cart-total">Rp 0</span>
+    </div>
+
+    <div class="modal" id="checkout-modal" role="dialog" aria-labelledby="checkout-title" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="checkout-title">Ringkasan Pembelian</h2>
+                <button class="close-btn" aria-label="Tutup modal">×</button>
+            </div>
+            <table class="checkout-table">
+                <thead>
+                    <tr>
+                        <th>Produk</th>
+                        <th>Jumlah</th>
+                        <th>Harga</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="checkout-items"></tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="3">Total</td>
+                        <td id="checkout-total">Rp 0</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="modal-actions">
+                <button class="btn cancel-btn" aria-label="Batalkan checkout">Batal</button>
+                <button class="btn confirm-btn" id="confirm-checkout" aria-label="Konfirmasi checkout">Konfirmasi</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <img src="https://www.indomie.com/uploads/slider/image-2_021732830.png" alt="Indomie Footer Image" class="footer-image">
+            </div>
+            <div class="footer-column">
+                <h3>INDOMIE</h3>
+                <p>Perusahaan mi instan terbesar di Indonesia yang telah memproduksi mi instan dengan kualitas terbaik sejak 1970.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/IndomieOfficial" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/indomie" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/indomie" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/@IndomieOfficial" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>PRODUCTS</h3>
+                <ul>
+                    <li><a href="#">Mi Goreng</a></li>
+                    <li><a href="#">Rasa Kuah</a></li>
+                    <li><a href="#">Special Variant</a></li>
+                    <li><a href="#">Limited Edition</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>RECIPES</h3>
+                <ul>
+                    <li><a href="#">Resep Mi Goreng</a></li>
+                    <li><a href="#">Resep Mi Kuah</a></li>
+                    <li><a href="#">Kreasi Indomie</a></li>
+                    <li><a href="#">Resep Spesial</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Jend. Sudirman Kav. 76-78, Jakarta</li>
+                    <li><i class="fas fa-phone"></i> (021) 1234567</li>
+                    <li><i class="fas fa-envelope"></i> info@indomie.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 PT Indofood Sukses Makmur Tbk. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Initialize cart
+        let cart = {
+            items: JSON.parse(localStorage.getItem('cartItems')) || {},
+            total: 0
+        };
+
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+            
+            const diff = endOfDay - now;
+            
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(countdownInterval);
+            } else {
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
+        });
+
+        // Quantity Selector and Checkout Functionality
+        const checkoutBtn = document.getElementById('floating-cart');
+        const checkoutModal = document.getElementById('checkout-modal');
+        const checkoutItems = document.getElementById('checkout-items');
+        const checkoutTotal = document.getElementById('checkout-total');
+        const closeBtn = checkoutModal.querySelector('.close-btn');
+        const cancelBtn = checkoutModal.querySelector('.cancel-btn');
+        const confirmBtn = checkoutModal.querySelector('.confirm-btn');
+        const cartCount = document.getElementById('floating-cart-count');
+        const floatingCart = document.getElementById('floating-cart');
+        const floatingCartCount = document.getElementById('floating-cart-count');
+        const floatingCartTotal = document.getElementById('floating-cart-total');
+
+        // Format price to IDR
+        const formatPrice = (price) => {
+            return `Rp ${price.toLocaleString('id-ID')}`;
+        };
+
+        // Parse price from string (e.g., "Rp 2.800" -> 2800)
+        const parsePrice = (priceText) => {
+            const cleanText = priceText.replace('Rp ', '').replace(/\./g, '');
+            return parseInt(cleanText) || 0;
+        };
+
+        // Update cart count display
+        const updateCartCount = () => {
+            const count = Object.values(cart.items).reduce((total, item) => total + item.quantity, 0);
+            const total = Object.values(cart.items).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            if (cartCount && floatingCartCount && floatingCartTotal) {
+                cartCount.textContent = count;
+                floatingCartCount.textContent = count;
+                floatingCartTotal.textContent = formatPrice(total);
+                
+                if (count > 0) {
+                    checkoutBtn.classList.add('has-items');
+                    cartCount.style.display = 'flex';
+                    floatingCart.style.display = 'flex';
+                } else {
+                    checkoutBtn.classList.remove('has-items');
+                    cartCount.style.display = 'none';
+                    floatingCart.style.display = 'none';
+                }
+            } else {
+                console.error('Cart count or floating cart elements not found');
+            }
+        };
+
+        // Sync product card quantity selectors with cart
+        const syncProductCardQuantities = () => {
+            document.querySelectorAll('.quantity-selector').forEach(selector => {
+                const productId = selector.getAttribute('data-product-id');
+                const quantityDisplay = selector.querySelector('.quantity-display');
+                const buyNowBtn = selector.closest('.buy-container').querySelector('.buy-now');
+                
+                if (cart.items[productId] && cart.items[productId].quantity > 0) {
+                    selector.style.display = 'flex';
+                    buyNowBtn.style.display = 'none';
+                    quantityDisplay.textContent = cart.items[productId].quantity;
+                } else {
+                    selector.style.display = 'none';
+                    buyNowBtn.style.display = 'inline-block';
+                }
+            });
+        };
+
+        // Show floating cart when scrolling
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                floatingCart.classList.add('visible');
+            } else {
+                floatingCart.classList.remove('visible');
+            }
+        });
+
+        // Floating cart click opens modal
+        floatingCart.addEventListener('click', () => {
+            if (Object.values(cart.items).reduce((total, item) => total + item.quantity, 0) > 0) {
+                openModal();
+            }
+        });
+
+        // Populate checkout modal
+        const updateCheckoutModal = () => {
+            checkoutItems.innerHTML = '';
+            cart.total = 0;
+
+            Object.values(cart.items).forEach(item => {
+                if (item.quantity > 0) {
+                    const subtotal = item.price * item.quantity;
+                    cart.total += subtotal;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>
+                            <div class="quantity-selector" data-product-id="${item.id}">
+                                <button class="quantity-btn minus" aria-label="Kurangi jumlah">-</button>
+                                <span class="quantity-display" aria-live="polite">${item.quantity}</span>
+                                <button class="quantity-btn plus" aria-label="Tambah jumlah">+</button>
+                            </div>
+                        </td>
+                        <td>${formatPrice(item.price)}</td>
+                        <td>${formatPrice(subtotal)}</td>
+                    `;
+                    checkoutItems.appendChild(row);
+                }
+            });
+
+            checkoutTotal.textContent = formatPrice(cart.total);
+            floatingCartTotal.textContent = formatPrice(cart.total);
+
+            // Attach event listeners to modal quantity buttons
+            checkoutItems.querySelectorAll('.quantity-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const isPlus = e.target.classList.contains('plus');
+                    const quantitySelector = e.target.closest('.quantity-selector');
+                    const productId = quantitySelector.getAttribute('data-product-id');
+                    const quantityDisplay = quantitySelector.querySelector('.quantity-display');
+                    
+                    let currentQuantity = parseInt(quantityDisplay.textContent);
+                    
+                    if (isPlus) {
+                        currentQuantity++;
+                    } else {
+                        currentQuantity = Math.max(0, currentQuantity - 1);
+                    }
+                    
+                    if (cart.items[productId]) {
+                        cart.items[productId].quantity = currentQuantity;
+                        quantityDisplay.textContent = currentQuantity;
+                        
+                        if (currentQuantity === 0) {
+                            delete cart.items[productId];
+                            quantitySelector.closest('tr').remove();
+                            if (Object.keys(cart.items).length === 0) {
+                                closeModal();
+                            }
+                        }
+                    }
+                    
+                    updateCheckoutModal();
+                    updateCartCount();
+                    syncProductCardQuantities();
+                });
+            });
+        };
+
+        // Open modal
+        const openModal = () => {
+            checkoutModal.style.display = 'flex';
+            updateCheckoutModal();
+            checkoutModal.setAttribute('aria-hidden', 'false');
+            closeBtn.focus();
+            document.body.style.overflow = 'hidden';
+        };
+
+        // Close modal
+        const closeModal = () => {
+            console.log('closeModal called');
+            try {
+                checkoutModal.style.display = 'none';
+                checkoutModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = 'auto';
+                if (checkoutBtn && typeof checkoutBtn.focus === 'function') {
+                    checkoutBtn.focus();
+                }
+            } catch (error) {
+                console.error('Error in closeModal:', error);
+            }
+        };
+
+        // Handle buy now button
+        document.querySelectorAll('.buy-now').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const productId = e.target.getAttribute('data-product-id');
+                const productCard = e.target.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const priceText = productCard.querySelector('.current-price').textContent;
+                const price = parsePrice(priceText);
+                
+                const buyContainer = e.target.closest('.buy-container');
+                const buyNowBtn = buyContainer.querySelector('.buy-now');
+                const quantitySelector = buyContainer.querySelector('.quantity-selector');
+                const quantityDisplay = quantitySelector.querySelector('.quantity-display');
+
+                buyNowBtn.style.display = 'none';
+                quantitySelector.style.display = 'flex';
+                quantityDisplay.textContent = '1';
+                
+                cart.items[productId] = {
+                    id: productId,
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                };
+                
+                checkoutBtn.classList.add('added');
+                setTimeout(() => checkoutBtn.classList.remove('added'), 500);
+                
+                updateCartCount();
+            });
+        });
+
+        // Handle product card quantity buttons
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const isPlus = e.target.classList.contains('plus');
+                const quantitySelector = e.target.closest('.quantity-selector');
+                const quantityDisplay = quantitySelector.querySelector('.quantity-display');
+                const productId = quantitySelector.getAttribute('data-product-id');
+                const buyContainer = quantitySelector.closest('.buy-container');
+                const buyNowBtn = buyContainer.querySelector('.buy-now');
+                
+                let currentQuantity = parseInt(quantityDisplay.textContent);
+                
+                if (isPlus) {
+                    currentQuantity++;
+                } else {
+                    currentQuantity = Math.max(0, currentQuantity - 1);
+                }
+                
+                if (cart.items[productId]) {
+                    cart.items[productId].quantity = currentQuantity;
+                }
+                
+                quantityDisplay.textContent = currentQuantity;
+                
+                if (currentQuantity === 0) {
+                    quantitySelector.style.display = 'none';
+                    buyNowBtn.style.display = 'inline-block';
+                    delete cart.items[productId];
+                }
+                
+                updateCartCount();
+            });
+        });
+
+        // Handle close button
+        closeBtn.addEventListener('click', () => {
+            console.log('Close button clicked');
+            closeModal();
+        });
+
+        // Handle cancel button
+        cancelBtn.addEventListener('click', () => {
+            console.log('Cancel button clicked');
+            closeModal();
+        });
+
+        // Handle confirm checkout
+        confirmBtn.addEventListener('click', () => {
+            console.log('Confirm button clicked');
+            localStorage.setItem('cartItems', JSON.stringify(cart.items));
+            window.location.href = 'order.html';
+            document.querySelectorAll('.quantity-selector').forEach(selector => {
+                selector.style.display = 'none';
+                selector.querySelector('.quantity-display').textContent = '1';
+                selector.closest('.buy-container').querySelector('.buy-now').style.display = 'inline-block';
+            });
+            closeModal();
+            updateCartCount();
+        });
+
+        // Close modal on outside click
+        checkoutModal.addEventListener('click', (e) => {
+            if (e.target === checkoutModal) {
+                console.log('Outside modal clicked');
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && checkoutModal.style.display === 'flex') {
+                console.log('Escape key pressed');
+                closeModal();
+            }
+        });
+
+        // Animasi hover product card
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // Load cart data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
+            updateCartCount();
+            syncProductCardQuantities();
+        });
+    </script>
+</body>
+</html>

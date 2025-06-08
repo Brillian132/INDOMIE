@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indomie - Poin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #A1121B;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .points-history {
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--light);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .points-table {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: var(--light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header, .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            align-items: center;
+        }
+
+        .table-header {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--light);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .table-row {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        .table-row:hover {
+            background-color: #f9f9f9;
+        }
+
+        .table-row span {
+            text-align: left;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .table-footer {
+            padding: 1rem;
+            text-align: right;
+            background-color: var(--secondary);
+            color: var(--dark);
+            font-size: 1.2rem;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .table-footer strong {
+            font-weight: 700;
+        }
+
+        .reset-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff6b00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .reset-button:hover {
+            background-color: #e05d00;
+        }
+
+        @media (max-width: 768px) {
+            .points-table {
+                font-size: 0.9rem;
+            }
+
+            .table-header, .table-row {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .table-header span, .table-row span {
+                padding: 0.5rem 0;
+            }
+
+            .table-footer {
+                text-align: center;
+            }
+
+            .reset-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="game.html">MINI GAME</a>
+                <a href="event.html">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <section class="points-history">
+        <div class="section-title">
+            <h2>RIWAYAT POIN PEMBELIAN</h2>
+            <p>Lihat riwayat pembelian dan poin game Anda. Setiap Rp 1.000 = 1 poin, dan skor game ≥ 15 = 10 poin!</p>
+        </div>
+        <div class="points-table" id="points-table">
+            <div class="table-header">
+                <span>Produk</span>
+                <span>Tanggal</span>
+                <span>Jumlah Pembelian</span>
+                <span>Poin Diperoleh</span>
+            </div>
+            <div class="table-footer">
+                <span>Total Poin: <strong id="total-points">0 Poin</strong></span>
+            </div>
+        </div>
+        <button class="reset-button" id="reset-points-btn">Reset Poin</button>
+    </section>
+
+    <script>
+        // Function to load points from localStorage and update the table
+        function loadPointsHistory() {
+            const pointsTable = document.getElementById('points-table');
+            const tableFooter = pointsTable.querySelector('.table-footer');
+            let totalPoints = 0;
+
+            // Load purchase points from localStorage
+            const purchasePoints = JSON.parse(localStorage.getItem('purchasePoints') || '[]');
+            // Load game points from localStorage
+            const gamePoints = JSON.parse(localStorage.getItem('indomiePoints') || '[]');
+
+            // Combine all points
+            const allPoints = [
+                ...purchasePoints.map(point => ({
+                    products: point.products,
+                    date: point.date,
+                    amount: point.amount,
+                    points: point.points
+                })),
+                ...gamePoints.map(point => ({
+                    products: point.product,
+                    date: point.date,
+                    amount: point.amount,
+                    points: point.points
+                }))
+            ];
+
+            // Clear existing rows except header and footer
+            const existingRows = pointsTable.querySelectorAll('.table-row');
+            existingRows.forEach(row => row.remove());
+
+            // Add all points to the table
+            allPoints.forEach(entry => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.setAttribute('role', 'row');
+                row.innerHTML = `
+                    <span>${entry.products}</span>
+                    <span>${entry.date}</span>
+                    <span>${entry.amount}</span>
+                    <span>${entry.points} Poin</span>
+                `;
+                pointsTable.insertBefore(row, tableFooter);
+                totalPoints += entry.points;
+            });
+
+            // Update total points
+            document.getElementById('total-points').textContent = `${totalPoints} Poin`;
+        }
+
+        // Function to reset all points
+        function resetPoints() {
+            if (confirm('Apakah Anda yakin ingin mereset semua poin? Tindakan ini tidak dapat dibatalkan.')) {
+                try {
+                    // Clear purchase and game points from localStorage
+                    localStorage.removeItem('purchasePoints');
+                    localStorage.removeItem('indomiePoints');
+                    // Reload the points table
+                    loadPointsHistory();
+                    alert('Semua poin telah direset.');
+                } catch (error) {
+                    console.error('Error resetting points:', error);
+                    alert('Gagal mereset poin. Silakan coba lagi.');
+                }
+            }
+        }
+
+        // Set up event listeners
+        window.addEventListener('load', () => {
+            loadPointsHistory();
+            // Attach reset button listener
+            document.getElementById('reset-points-btn').addEventListener('click', resetPoints);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Indomie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #A1121B;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.15rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.25s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.pinimg.com/736x/48/b7/fe/48b7fecb3a8f6d4c345188fbc27b6b48.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -10px;
+            left: 25%;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: white;
+        }
+
+        .about-video {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-video iframe {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 16/9;
+            display: block;
+            border: none;
+            transition: transform 0.5s;
+        }
+
+        .about-video:hover iframe {
+            transform: scale(1.05);
+        }
+
+        /* Milestones Section */
+        .milestones {
+            background-color: var(--light);
+            padding: 5rem 5%;
+        }
+
+        .milestones-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .milestones .section-title h2 {
+            color: var(--primary);
+        }
+
+        .milestones .section-title p {
+            color: var(--primary);
+        }
+
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .milestone-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .milestone-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .milestone-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .milestone-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .milestone-card p {
+            color: var(--primary);
+        }
+
+        /* Team Section */
+        .team {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .team-card:hover .team-image img {
+            transform: scale(1.1);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .team-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--dark);
+            background-color: var(--light);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Values Section */
+        .values {
+            background-color: var(--primary);
+            color: white;
+            padding: 5rem 5%;
+        }
+
+        .values-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title.white h2 {
+            color: white;
+        }
+
+        .section-title.white h2::after {
+            background-color: var(--secondary);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .value-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 5%;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://www.indomie.com/uploads/slider/banner_2_094906798.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 5%;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social a {
+            color: var(--light);
+            background-color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #999;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-video {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .logo img {
+                height: 70px;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-social {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo img {
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="game.html">MINI GAME</a>
+                <a href="event.html">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Cerita Kami</h1>
+            <p>Sejak 1970, Indomie telah menjadi bagian tak terpisahkan dari kehidupan masyarakat Indonesia dengan cita rasa yang autentik dan kualitas terbaik.</p>
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="section-title">
+            <h2>Tentang Indomie</h2>
+            <p>Mengenal lebih dekat dengan brand mi instan terkemuka di Indonesia</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Mi Instan dengan Cita Rasa Nusantara</h3>
+                <p>Indomie adalah merek mi instan yang diproduksi oleh PT Indofood Sukses Makmur Tbk. Sejak diluncurkan pertama kali pada tahun 1970, Indomie telah tumbuh menjadi salah satu merek mi instan paling populer di Indonesia dan diekspor ke lebih dari 90 negara di seluruh dunia.</p>
+                <p>Dengan berbagai varian rasa yang menggugah selera, Indomie tidak hanya menjadi makanan praktis tetapi juga telah menjadi bagian dari budaya kuliner Indonesia. Setiap hidangan Indomie dibuat dengan bahan-bahan berkualitas dan rempah-rempah pilihan untuk memberikan pengalaman makan yang istimewa.</p>
+                <p>Komitmen kami terhadap inovasi dan kualitas telah menjadikan Indomie sebagai pilihan utama keluarga Indonesia selama lebih dari 50 tahun.</p>
+            </div>
+            <div class="about-video">
+                <iframe src="https://www.youtube.com/embed/ItfHurpXn1M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones Section -->
+    <section class="milestones">
+        <div class="milestones-container">
+            <div class="section-title">
+                <h2>Pencapaian Kami</h2>
+                <p>Perjalanan panjang Indomie dalam angka</p>
+            </div>
+            <div class="milestone-grid">
+                <div class="milestone-card">
+                    <div class="milestone-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="milestone-number">50+</div>
+                    <div class="milestone-title">Tahun Pengalaman</div>
+                    <p>Melayani konsumen sejak 1970</p>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="milestone-number">90+</div>
+                    <div class="milestone-title">Negara</div>
+                    <p>Jangkauan ekspor global</p>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="milestone-number">30+</div>
+                    <div class="milestone-title">Varian Rasa</div>
+                    <p>Pilihan rasa yang beragam</p>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="milestone-number">15M+</div>
+                    <div class="milestone-title">Porsi Per Hari</div>
+                    <p>Dikonsumsi di seluruh dunia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="section-title">
+            <h2>Tim Kami</h2>
+            <p>Orang-orang di balik kesuksesan Indomie</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="https://i.pinimg.com/736x/98/4a/15/984a158f49b15f3639cee45d4f25ec63.jpg" alt="Team Member">
+                </div>
+                <div class="team-info">
+                    <h3>Brillian Wicaksono</h3>
+                    <p>Direktur Utama</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="https://i.pinimg.com/736x/88/22/01/882201844d93d14da7c615100be9ec3b.jpg" alt="Team Member">
+                </div>
+                <div class="team-info">
+                    <h3>Ervito Rial F</h3>
+                    <p>Kepala Penelitian & Pengembangan</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="https://i.pinimg.com/736x/62/0b/1d/620b1db856297a43821c469d946eec4b.jpg" alt="Team Member">
+                </div>
+                <div class="team-info">
+                    <h3>Adam Satria</h3>
+                    <p>Manajer UI/UX</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="https://i.pinimg.com/736x/dd/c0/bb/ddc0bb911de8b323cb6dd80a8b3b03d7.jpg" alt="Team Member">
+                </div>
+                <div class="team-info">
+                    <h3>Brilliant Ivray</h3>
+                    <p>Anggota UI</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values">
+        <div class="values-container">
+            <div class="section-title white">
+                <h2>Nilai-Nilai Kami</h2>
+                <p>Prinsip yang memandu setiap langkah kami</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="value-title">Kualitas Terbaik</h3>
+                    <p>Kami hanya menggunakan bahan-bahan pilihan dengan standar kualitas tertinggi untuk memastikan setiap hidangan Indomie istimewa.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Inovasi</h3>
+                    <p>Terus berinovasi dalam rasa dan produk untuk memenuhi selera konsumen yang terus berkembang.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="value-title">Kepuasan Konsumen</h3>
+                    <p>Kepuasan dan kepercayaan konsumen adalah prioritas utama dalam setiap keputusan bisnis kami.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Temukan Kelezatan Indomie</h2>
+            <p>Jelajahi berbagai produk kami dan temukan rasa favorit Anda</p>
+            <a href="produk.html" class="btn">Lihat Produk</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <img src="https://www.indomie.com/uploads/slider/image-2_021732830.png" alt="Indomie Footer Image" style="max-width: 200px; margin-bottom: 1rem;">
+                <p>Perusahaan mi instan terbesar di Indonesia yang telah memproduksi mi instan dengan kualitas terbaik sejak 1970.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/IndomieOfficial"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/indomie"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/indomie"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/@IndomieOfficial"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>PRODUCTS</h3>
+                <ul>
+                    <li><a href="#">Mi Goreng</a></li>
+                    <li><a href="#">Rasa Kuah</a></li>
+                    <li><a href="#">Special Variant</a></li>
+                    <li><a href="#">Limited Edition</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>RECIPES</h3>
+                <ul>
+                    <li><a href="#">Resep Mi Goreng</a></li>
+                    <li><a href="#">Resep Mi Kuah</a></li>
+                    <li><a href="#">Kreasi Indomie</a></li>
+                    <li><a href="#">Resep Spesial</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Jend. Sudirman Kav. 76-78, Jakarta</li>
+                    <li><i class="fas fa-phone"></i> (021) 1234567</li>
+                    <li><i class="fas fa-envelope"></i> info@indomie.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 PT Indofood Sukses Makmur Tbk. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation on scroll
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.milestone-card, .team-card, .value-card');
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                if(elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize elements with opacity 0 for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.milestone-card, .team-card, .value-card');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.6s ease-out';
+            });
+        });
+    </script>
+</body>
+</html>

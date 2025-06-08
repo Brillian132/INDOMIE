@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indomie - My Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #A1121B;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .mypage-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: var(--light);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(222, 219, 219, 0.1);
+            text-align: center;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #ffe900;
+        }
+
+        .profile-info h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .points-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .points-section h2 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .points-section p {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .points-section .error-message {
+            font-size: 14px;
+            color: #e05d00;
+            font-weight: normal;
+            margin-top: 10px;
+        }
+
+        .account-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .option-card i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .option-card h3 {
+            font-size: 18px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .option-card button {
+            background: none;
+            border: none;
+            color: #ff6b00;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .option-card button:hover {
+            color: var(--primary);
+        }
+
+        .option-card a.button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #ff6b00;
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .option-card a.button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .logout-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: #ff6b00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #e05d00;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-content label {
+            display: block;
+            font-size: 16px;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .modal-content input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-buttons .save-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .modal-buttons .save-btn:hover {
+            background-color: #c1122f;
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: #ff6b00;
+            color: white;
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: #e05d00;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(250px, 1fr) repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            align-items: start;
+        }
+
+        .footer-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--light);
+            background-color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .mypage-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+            }
+
+            .profile-pic {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .account-options {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-image {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="game.html">MINI GAME</a>
+                <a href="event.html">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <div class="mypage-container">
+        <div class="profile-header">
+            <img src="https://i.pinimg.com/736x/eb/76/a4/eb76a46ab920d056b02d203ca95e9a22.jpg" alt="Profile Picture" class="profile-pic">
+            <div class="profile-info">
+                <h1 id="profile-name">Selamat Datang, Pengguna Indomie!</h1>
+                <p id="profile-email">Email: user@indomie.com</p>
+            </div>
+        </div>
+
+        <div class="points-section">
+            <h2>Saldo Poin Anda</h2>
+            <p id="points-value">Memuat poin...</p>
+            <p id="points-error" class="error-message" style="display: none;"></p>
+        </div>
+
+        <div class="account-options">
+            <div class="option-card">
+                <i class="fas fa-user-edit"></i>
+                <h3>Edit Profil</h3>
+                <button id="edit-profile-btn">Ubah Informasi Akun</button>
+            </div>
+            <div class="option-card">
+                <i class="fas fa-trophy"></i>
+                <h3>Riwayat Poin</h3>
+                <a href="point.html" class="button">Lihat Aktivitas Poin</a>
+            </div>
+            <div class="option-card">
+                <i class="fas fa-gift"></i>
+                <h3>Redeem Hadiah</h3>
+                <a href="#" class="button">Tukar Poin Anda</a>
+            </div>
+        </div>
+
+        <a href="login.html" class="logout-btn">KELUAR</a>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Profil</h2>
+            <div class="form-group">
+                <label for="edit-name">Nama</label>
+                <input type="text" id="edit-name" placeholder="Masukkan nama">
+            </div>
+            <div class="form-group">
+                <label for="edit-email">Email</label>
+                <input type="email" id="edit-email" placeholder="Masukkan email">
+            </div>
+            <div class="modal-buttons">
+                <button class="save-btn" id="save-profile-btn">Simpan</button>
+                <button class="cancel-btn" id="cancel-profile-btn">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <img src="https://www.indomie.com/uploads/slider/image-2_021732830.png" alt="Indomie Footer Image" class="footer-image">
+            </div>
+            <div class="footer-column">
+                <h3>INDOMIE</h3>
+                <p>Perusahaan mi instan terbesar di Indonesia yang telah memproduksi mi instan dengan kualitas terbaik sejak 1970.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/IndomieOfficial"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/indomie"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/Indomielovers?t=fu2B7ZS2X1q1NmMHNN27Ow&s=09"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/@Indomie"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>PRODUCTS</h3>
+                <ul>
+                    <li><a href="#">Mi Goreng</a></li>
+                    <li><a href="#">Rasa Kuah</a></li>
+                    <li><a href="#">Special Variant</a></li>
+                    <li><a href="#">Limited Edition</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>RECIPES</h3>
+                <ul>
+                    <li><a href="#">Resep Mi Goreng</a></li>
+                    <li><a href="#">Resep Mi Kuah</a></li>
+                    <li><a href="#">Kreasi Indomie</a></li>
+                    <li><a href="#">Resep Spesial</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Jend. Sudirman Kav. 76-78, Jakarta</li>
+                    <li><i class="fas fa-phone"></i> (021) 1234567</li>
+                    <li><i class="fas fa-envelope"></i> info@indomie.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 PT Indofood Sukses Makmur Tbk. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load points from localStorage and update the points section
+        function loadPoints() {
+            const pointsDisplay = document.getElementById('points-value');
+            const errorDisplay = document.getElementById('points-error');
+            
+            try {
+                // Load purchase and game points from localStorage
+                const purchasePoints = JSON.parse(localStorage.getItem('purchasePoints') || '[]');
+                const gamePoints = JSON.parse(localStorage.getItem('indomiePoints') || '[]');
+                
+                // Calculate total points
+                const totalPoints = [
+                    ...purchasePoints.map(p => p.points),
+                    ...gamePoints.map(p => p.points)
+                ].reduce((sum, points) => sum + points, 0);
+                
+                // Update display
+                pointsDisplay.textContent = `${totalPoints} Poin`;
+                errorDisplay.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading points:', error.message || error);
+                pointsDisplay.textContent = '250 Poin'; // Fallback value
+                errorDisplay.textContent = 'Gagal memuat poin. Silakan coba lagi nanti.';
+                errorDisplay.style.display = 'block';
+            }
+        }
+
+        // Load and update profile information
+        function loadProfile() {
+            const profileName = document.getElementById('profile-name');
+            const profileEmail = document.getElementById('profile-email');
+            try {
+                const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+                profileName.textContent = userProfile.name || 'Selamat Datang, Pengguna Indomie!';
+                profileEmail.textContent = `Email: ${userProfile.email || 'user@indomie.com'}`;
+            } catch (error) {
+                console.error('Error loading profile:', error.message || error);
+                profileName.textContent = 'Selamat Datang, Pengguna Indomie!';
+                profileEmail.textContent = 'Email: user@indomie.com';
+            }
+        }
+
+        // Handle Edit Profile Modal
+        function setupEditProfile() {
+            const editBtn = document.getElementById('edit-profile-btn');
+            const modal = document.getElementById('edit-profile-modal');
+            const saveBtn = document.getElementById('save-profile-btn');
+            const cancelBtn = document.getElementById('cancel-profile-btn');
+            const nameInput = document.getElementById('edit-name');
+            const emailInput = document.getElementById('edit-email');
+
+            // Open modal and populate fields
+            editBtn.addEventListener('click', () => {
+                try {
+                    const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+                    nameInput.value = userProfile.name || 'Pengguna Indomie';
+                    emailInput.value = userProfile.email || 'user@indomie.com';
+                    modal.style.display = 'flex';
+                } catch (error) {
+                    console.error('Error opening profile modal:', error);
+                    nameInput.value = 'Pengguna Indomie';
+                    emailInput.value = 'user@indomie.com';
+                    modal.style.display = 'flex';
+                }
+            });
+
+            // Save profile changes
+            saveBtn.addEventListener('click', () => {
+                try {
+                    const name = nameInput.value.trim();
+                    const email = emailInput.value.trim();
+                    if (!name || !email) {
+                        alert('Nama dan email tidak boleh kosong!');
+                        return;
+                    }
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        alert('Masukkan email yang valid!');
+                        return;
+                    }
+                    const userProfile = { name, email };
+                    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                    document.getElementById('profile-name').textContent = `Selamat Datang, ${name}!`;
+                    document.getElementById('profile-email').textContent = `Email: ${email}`;
+                    modal.style.display = 'none';
+                } catch (error) {
+                    console.error('Error saving profile:', error);
+                    alert('Gagal menyimpan profil. Silakan coba lagi.');
+                }
+            });
+
+            // Close modal without saving
+            cancelBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Run functions when the page loads
+        window.onload = () => {
+            loadPoints();
+            loadProfile();
+            setupEditProfile();
+        };
+    </script>
+</body>
+</html>

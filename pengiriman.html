@@ -1,0 +1,612 @@
+<!-- Step 2: Shipping Method -->
+<div class="form-section" id="section2">
+    <style>
+        :root {
+            --primary: #FFD700; /* Changed from red to gold/yellow */
+            --secondary: #E31937; /* Changed from gold to red */
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #A1121B;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.15rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.25s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        /* Center the section title */
+        .section-title {
+            text-align: center;
+            color: white;
+            margin: 1.5rem 0;
+            font-size: 1.8rem;
+        }
+
+        /* Order Steps - Updated to match exactly */
+        .order-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            text-align: center;
+            color: white;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Modern Shipping Method Styles */
+        .form-group {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .form-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--light);
+            margin-bottom: 0.75rem;
+            display: block;
+            text-align: center;
+        }
+
+        .shipping-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .shipping-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .shipping-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .shipping-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.2));
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .shipping-card img {
+            max-width: 80px;
+            max-height: 40px;
+            margin: 0 auto 0.5rem;
+        }
+
+        .courier-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .shipping-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .shipping-option-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .shipping-option-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .shipping-option-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.2));
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .shipping-option-card input {
+            margin-right: 0.5rem;
+        }
+
+        .shipping-option-card label {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .option-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .option-detail {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .option-price {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: var(--light);
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            transform: translateY(-50%);
+        }
+
+        .modern-summary {
+            background: linear-gradient(145deg, #f9f9f9, #ffffff);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .modern-summary .summary-title {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .modern-summary .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .modern-summary .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Form actions centered */
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #C01030;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+                font-size: 1rem;
+            }
+            
+            .order-steps {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 0 10px;
+            }
+            
+            .step-line, .progress-line {
+                display: none;
+            }
+            
+            .step {
+                flex-direction: row;
+                gap: 1rem;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .step-number {
+                margin-bottom: 0;
+            }
+            
+            .step-title {
+                text-align: left;
+            }
+            
+            .shipping-methods-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .shipping-option-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .badge {
+                right: 5px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .shipping-methods-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .shipping-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="#">MINI GAME</a>
+                <a href="#">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <h2 class="section-title">Pilih Metode Pengiriman</h2>
+
+    <!-- Order Steps - Updated to match exactly -->
+    <div class="order-steps">
+        <div class="step completed" id="step1">
+            <div class="step-number">1</div>
+            <div class="step-title">Informasi Penerima</div>
+        </div>
+        <div class="step active" id="step2">
+            <div class="step-number">2</div>
+            <div class="step-title">Metode Pengiriman</div>
+        </div>
+        <div class="step" id="step3">
+            <div class="step-number">3</div>
+            <div class="step-title">Pembayaran</div>
+        </div>
+        <div class="step" id="step4">
+            <div class="step-number">4</div>
+            <div class="step-title">Konfirmasi</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="progress-line" id="progressLine" style="width: 33.33%"></div>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Pilih Kurir Pengiriman</label>
+        <div class="shipping-methods-grid">
+            <div class="shipping-card selected" onclick="selectShipping(this, 'jne')" data-courier="jne">
+                <img src="https://i.pinimg.com/736x/cf/9c/18/cf9c18d97b5b7bb116cc99e1c93afcff.jpg" alt="JNE">
+                <span class="courier-name">JNE</span>
+            </div>
+            <div class="shipping-card" onclick="selectShipping(this, 'tiki')" data-courier="tiki">
+                <img src="https://i.pinimg.com/736x/f1/12/99/f112993f99390645c6e768e76b306ac9.jpg" alt="TIKI">
+                <span class="courier-name">TIKI</span>
+            </div>
+            <div class="shipping-card" onclick="selectShipping(this, 'jnt')" data-courier="jnt">
+                <img src="https://i.pinimg.com/736x/27/33/d4/2733d452329a7a5a73e3922a36e69370.jpg" alt="J&T">
+                <span class="courier-name">J&T</span>
+            </div>
+            <div class="shipping-card" onclick="selectShipping(this, 'sicepat')" data-courier="sicepat">
+                <img src="https://i.pinimg.com/736x/62/ca/92/62ca927dd107cd4a7c6af9c8148526b9.jpg" alt="SiCepat">
+                <span class="courier-name">SiCepat</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Pilih Layanan Pengiriman</label>
+        <div class="shipping-options">
+            <div class="shipping-option-card selected" onclick="selectShippingOption(this)">
+                <input type="radio" name="shippingOption" id="reguler" value="15000" checked>
+                <label for="reguler">
+                    <span class="option-title">Reguler</span>
+                    <span class="option-detail">Estimasi 3-5 hari</span>
+                    <span class="option-price">Rp 15.000</span>
+                    <span class="badge">Paling Hemat</span>
+                </label>
+            </div>
+            <div class="shipping-option-card" onclick="selectShippingOption(this)">
+                <input type="radio" name="shippingOption" id="express" value="25000">
+                <label for="express">
+                    <span class="option-title">Express</span>
+                    <span class="option-detail">Estimasi 1-2 hari</span>
+                    <span class="option-price">Rp 25.000</span>
+                    <span class="badge">Populer</span>
+                </label>
+            </div>
+            <div class="shipping-option-card" onclick="selectShippingOption(this)">
+                <input type="radio" name="shippingOption" id="sameday" value="40000">
+                <label for="sameday">
+                    <span class="option-title">Same Day</span>
+                    <span class="option-detail">Estimasi 6-12 jam</span>
+                    <span class="option-price">Rp 40.000</span>
+                    <span class="badge">Cepat</span>
+                </label>
+            </div>
+            <div class="shipping-option-card" onclick="selectShippingOption(this)">
+                <input type="radio" name="shippingOption" id="instant" value="60000">
+                <label for="instant">
+                    <span class="option-title">Instant</span>
+                    <span class="option-detail">Estimasi 1-3 jam</span>
+                    <span class="option-price">Rp 60.000</span>
+                    <span class="badge">Tercepat</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modern-summary">
+        <h3 class="summary-title">Ringkasan Pesanan</h3>
+        <div class="summary-item">
+            <span>Indomie Goreng (2x)</span>
+            <span>Rp 5.600</span>
+        </div>
+        <div class="summary-item">
+            <span>Indomie Soto (1x)</span>
+            <span>Rp 2.400</span>
+        </div>
+        <div class="summary-item">
+            <span>Ongkos Kirim</span>
+            <span id="shippingCost">Rp 15.000</span>
+        </div>
+        <div class="summary-total">
+            <span>Total Pembayaran</span>
+            <span id="totalPayment">Rp 23.000</span>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Kembali</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Lanjut</button>
+    </div>
+</div>
+<script>
+function selectShipping(element, method) {
+    document.querySelectorAll('.shipping-methods-grid .shipping-card').forEach(el => {
+        el.classList.remove('selected');
+    });
+    element.classList.add('selected');
+}
+
+function selectShippingOption(element) {
+    document.querySelectorAll('.shipping-option-card').forEach(el => {
+        el.classList.remove('selected');
+    });
+    element.classList.add('selected');
+    
+    // Update shipping cost in summary
+    const shippingCost = parseInt(element.querySelector('input').value);
+    document.getElementById('shippingCost').textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
+    document.getElementById('totalPayment').textContent = `Rp ${(8000 + shippingCost).toLocaleString('id-ID')}`;
+}
+
+function nextStep(step) {
+    // Update steps
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step}`).classList.add('completed');
+    document.getElementById(`step${step+1}`).classList.add('active');
+    
+    // Update progress line
+    const progressPercentage = (step / 3) * 100;
+    document.getElementById('progressLine').style.width = `${progressPercentage}%`;
+    
+    // In a real application, you would navigate to the next step/page
+    console.log('Proceeding to next step:', step+1);
+}
+
+function prevStep(step) {
+    // Update steps
+    document.getElementById(`step${step}`).classList.remove('active');
+    document.getElementById(`step${step-1}`).classList.add('active');
+    document.getElementById(`step${step-1}`).classList.remove('completed');
+    
+    // Update progress line
+    const progressPercentage = ((step-2) / 3) * 100;
+    document.getElementById('progressLine').style.width = `${progressPercentage}%`;
+    
+    // In a real application, you would navigate to the previous step/page
+    console.log('Going back to step:', step-1);
+}
+</script>
+</body>
+</html>

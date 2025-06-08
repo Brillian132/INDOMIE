@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indomie - Pemesanan Produk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary: #E31937;
+            --secondary: #FFD700;
+            --light: #F5F5F5;
+            --dark: #1A1A1A;
+            --accent: #FF6F61;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #E31937;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 100px;
+            background-color: #ffe900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+            position: absolute;
+            z-index: 88;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:focus {
+            outline: 2px solid #E31937;
+            outline-offset: 2px;
+        }
+
+        /* Main Content */
+        .order-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-number {
+            background-color: white;
+            color: #666;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+
+        .step-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        /* Order Form */
+        .order-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px 1rem;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 15px;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(227, 25, 55, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0102d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .summary-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            color: var(--primary);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-method {
+            flex: 1;
+            min-width: 150px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background-color: rgba(227, 25, 55, 0.05);
+        }
+
+        .payment-method img {
+            max-width: 100px;
+            max-height: 40px;
+            display: block;
+            margin: 0 auto 0.5rem;
+        }
+
+        .payment-method .method-name {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Payment Details */
+        .payment-details {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .payment-details.active {
+            display: block;
+        }
+
+        #qris_code_container {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        #qris_code_container p {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Confirmation */
+        .confirmation-message {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-message h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .order-details {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        .order-details h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+                font-size: 1rem;
+            }
+
+            .logo img {
+                height: 70px;
+            }
+
+            .order-steps {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .step-line, .progress-line {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .step-number {
+                margin-bottom: 0;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
+
+            .payment-method {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://www.indomie.com/img/icon/logo-indomie.png" alt="Indomie Logo">
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">HOME</a>
+                <a href="produk.html">PRODUK</a>
+                <a href="aboutus.html">ABOUT US</a>
+                <a href="point.html">POINT</a>
+                <a href="mypage.html">MY PAGE</a>
+                <a href="#">MINI GAME</a>
+                <a href="#">EVENT</a>
+            </nav>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="order-container">
+        <div class="page-title">
+            <h1>PEMESANAN PRODUK</h1>
+            <p>Isi formulir berikut untuk menyelesaikan pemesanan Anda</p>
+        </div>
+
+        <!-- Order Steps -->
+        <div class="order-steps">
+            <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <div class="step-title">Informasi Penerima</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <div class="step-title">Metode Pengiriman</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <div class="step-title">Pembayaran</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-number">4</div>
+                <div class="step-title">Konfirmasi</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="progress-line" id="progressLine" style="width: 0%"></div>
+        </div>
+
+        <!-- Order Form -->
+        <form class="order-form" id="orderForm">
+            <!-- Step 1: Customer Information -->
+            <div class="form-section active" id="section1">
+                <h2 class="section-title">Informasi Penerima</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telepon">Nomor Telepon</label>
+                        <input type="tel" id="telepon" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="provinsi">Provinsi</label>
+                        <select id="provinsi" class="form-control" required>
+                            <option value="">Pilih Provinsi</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="kota">Kota/Kabupaten</label>
+                        <select id="kota" class="form-control" required>
+                            <option value="">Pilih Kota/Kabupaten</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kecamatan">Kecamatan</label>
+                        <select id="kecamatan" class="form-control" required>
+                            <option value="">Pilih Kecamatan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="alamat">Alamat Lengkap</label>
+                    <textarea id="alamat" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="catatan">Catatan (Opsional)</label>
+                    <textarea id="catatan" class="form-control" rows="2"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" disabled>Kembali</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Lanjut</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Shipping Method -->
+            <div class="form-section" id="section2">
+                <h2 class="section-title">Metode Pengiriman</h2>
+                
+                <div class="form-group">
+                    <label>Pilih Kurir</label>
+                    <div class="shipping-methods">
+                        <div class="payment-method selected" onclick="selectShipping(this, 'jne')">
+                            <img src="https://i.pinimg.com/736x/cf/9c/18/cf9c18d97b5b7bb116cc99e1c93afcff.jpg" alt="JNE">
+                            <div class="method-name">JNE</div>
+                        </div>
+                        <div class="payment-method" onclick="selectShipping(this, 'tiki')">
+                            <img src="https://i.pinimg.com/736x/f1/12/99/f112993f99390645c6e768e76b306ac9.jpg" alt="TIKI">
+                            <div class="method-name">TIKI</div>
+                        </div>
+                        <div class="payment-method" onclick="selectShipping(this, 'jnt')">
+                            <img src="https://i.pinimg.com/736x/27/33/d4/2733d452329a7a5a73e3922a36e69370.jpg" alt="J&T">
+                            <div class="method-name">J&T</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pilih Layanan</label>
+                    <div class="shipping-options">
+                        <div class="form-control shipping-option selected" onclick="selectShippingOption(this)">
+                            <input type="radio" name="shippingOption" id="reguler" checked>
+                            <label for="reguler">Reguler (3-5 hari) - Rp 15.000</label>
+                        </div>
+                        <div class="form-control shipping-option" onclick="selectShippingOption(this)">
+                            <input type="radio" name="shippingOption" id="express">
+                            <label for="express">Express (1-2 hari) - Rp 25.000</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3 class="summary-title">Ringkasan Pesanan</h3>
+                    <div class="summary-total">
+                        <span>Total Pembayaran</span>
+                        <span>Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Kembali</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Lanjut</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment -->
+            <div class="form-section" id="section3">
+                <h2 class="section-title">Metode Pembayaran</h2>
+                
+                <div class="form-group">
+                    <label>Pilih Metode Pembayaran</label>
+                    <div class="payment-methods">
+                        <div class="payment-method selected" onclick="selectPayment(this, 'bank_transfer')">
+                            <img src="https://i.pinimg.com/736x/61/85/70/61857002350096fdcf3a0451d7044b1f.jpg" alt="Transfer Bank">
+                            <div class="method-name">Transfer Bank</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'qris')">
+                            <img src="https://i.pinimg.com/736x/a1/9c/a1/a19ca1dbf3472ad3d06170cea1250e01.jpg" alt="QRIS">
+                            <div class="method-name">QRIS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-details active" id="bank_transfer_details">
+                    <div class="form-group">
+                        <label for="bank_account">Nomor Rekening</label>
+                        <input type="text" id="bank_account" class="form-control" placeholder="Masukkan nomor rekening" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank_name">Nama Bank</label>
+                        <select id="bank_name" class="form-control" required>
+                            <option value="">Pilih Bank</option>
+                            <option value="BCA">BCA</option>
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BNI">BNI</option>
+                            <option value="BRI">BRI</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="payment-details" id="qris_details">
+                    <div class="form-group">
+                        <label for="qris_code">Kode QRIS</label>
+                        <input type="text" id="qris_code" class="form-control" placeholder="Masukkan kode QRIS atau nomor tujuan" required>
+                    </div>
+                    <div id="qris_code_container">
+                        <p>Scan Kode QRIS Berikut:</p>
+                        <div id="qris_code"></div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3 class="summary-title">Ringkasan Pembayaran</h3>
+                    <div class="summary-total">
+                        <span>Total Pembayaran</span>
+                        <span>Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-control" style="background-color: #f8f9fa; padding: 15px;">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">Saya menyetujui <a href="#" style="color: var(--primary);">Syarat dan Ketentuan</a> yang berlaku</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Kembali</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Bayar Sekarang</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div class="form-section" id="section4">
+                <div class="confirmation-message">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Pesanan Anda Berhasil!</h2>
+                    <p>Terima kasih telah berbelanja di Indomie. Pesanan Anda sedang diproses.</p>
+                </div>
+                
+                <div class="order-details">
+                    <h3>Detail Pesanan</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Nomor Pesanan</span>
+                        <span>INDO-20250608-001</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tanggal Pesanan</span>
+                        <span>08 Juni 2025</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Nama Penerima</span>
+                        <span id="confirmNama">Budi Santoso</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Alamat Pengiriman</span>
+                        <span id="confirmAlamat">Jl. Merdeka No. 123, Jakarta Pusat</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Metode Pembayaran</span>
+                        <span id="confirmPayment">Transfer Bank</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Detail Pembayaran</span>
+                        <span id="confirmPaymentDetails">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Total Pembayaran</span>
+                        <span id="confirmTotal">Rp 0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Poin Diperoleh</span>
+                        <span id="confirmPoints">0 Poin</span>
+                    </div>
+                </div>
+                
+                <div class="form-actions" style="justify-content: center;">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='produk.html'">Kembali ke Beranda</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Retrieve cart data from localStorage and update summaries
+        function loadCartData() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || {};
+            if (Object.keys(cartItems).length === 0) {
+                alert('Keranjang belanja kosong. Silakan pilih produk terlebih dahulu.');
+                window.location.href = 'produk.html';
+                return;
+            }
+
+            const shippingCost = document.querySelector('.shipping-option.selected input').id === 'reguler' ? 15000 : 25000;
+
+            // Update order summary in Step 2
+            const summaryContainerStep2 = document.querySelector('#section2 .order-summary');
+            const summaryTotalStep2 = document.querySelector('#section2 .summary-total span:last-child');
+            summaryContainerStep2.querySelectorAll('.summary-item').forEach(item => item.remove());
+
+            let subtotal = 0;
+            Object.values(cartItems).forEach(item => {
+                if (item.quantity > 0) {
+                    const itemSubtotal = item.price * item.quantity;
+                    subtotal += itemSubtotal;
+
+                    const summaryItem = document.createElement('div');
+                    summaryItem.className = 'summary-item';
+                    summaryItem.innerHTML = `
+                        <span>${item.name} (${item.quantity}x)</span>
+                        <span>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
+                    `;
+                    summaryContainerStep2.insertBefore(summaryItem, summaryContainerStep2.querySelector('.summary-total'));
+                }
+            });
+
+            const shippingItem = document.createElement('div');
+            shippingItem.className = 'summary-item';
+            shippingItem.innerHTML = `
+                <span>Ongkos Kirim</span>
+                <span>Rp ${shippingCost.toLocaleString('id-ID')}</span>
+            `;
+            summaryContainerStep2.insertBefore(shippingItem, summaryContainerStep2.querySelector('.summary-total'));
+
+            const total = subtotal + shippingCost;
+            summaryTotalStep2.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+
+            // Update payment summary in Step 3
+            const summaryContainerStep3 = document.querySelector('#section3 .order-summary');
+            const summaryTotalStep3 = document.querySelector('#section3 .summary-total span:last-child');
+            summaryContainerStep3.querySelectorAll('.summary-item').forEach(item => item.remove());
+
+            Object.values(cartItems).forEach(item => {
+                if (item.quantity > 0) {
+                    const itemSubtotal = item.price * item.quantity;
+                    const summaryItem = document.createElement('div');
+                    summaryItem.className = 'summary-item';
+                    summaryItem.innerHTML = `
+                        <span>${item.name} (${item.quantity}x)</span>
+                        <span>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
+                    `;
+                    summaryContainerStep3.insertBefore(summaryItem, summaryContainerStep3.querySelector('.summary-total'));
+                }
+            });
+
+            const shippingItemStep3 = document.createElement('div');
+            shippingItemStep3.className = 'summary-item';
+            shippingItemStep3.innerHTML = `
+                <span>Ongkos Kirim</span>
+                <span>Rp ${shippingCost.toLocaleString('id-ID')}</span>
+            `;
+            summaryContainerStep3.insertBefore(shippingItemStep3, summaryContainerStep3.querySelector('.summary-total'));
+
+            summaryTotalStep3.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Form Navigation
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function nextStep(step) {
+            if (step === 1 && !validateStep1()) return;
+            if (step === 3 && !validateStep3()) return;
+
+            document.getElementById(`section${step}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.remove('active');
+
+            const nextStep = step + 1;
+            document.getElementById(`section${nextStep}`).classList.add('active');
+            document.getElementById(`step${step}`).classList.add('completed');
+            document.getElementById(`step${nextStep}`).classList.add('active');
+
+            const progressPercentage = ((nextStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressLine').style.width = `${progressPercentage}%`;
+
+            currentStep = nextStep;
+
+            if (nextStep === 4) {
+                updateConfirmationDetails();
+                localStorage.removeItem('cartItems'); // Clear cart after confirmation
+            }
+        }
+
+        function prevStep(step) {
+            document.getElementById(`section${step}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.remove('active');
+
+            const prevStep = step - 1;
+            document.getElementById(`section${prevStep}`).classList.add('active');
+            document.getElementById(`step${prevStep}`).classList.add('active');
+            document.getElementById(`step${prevStep}`).classList.remove('completed');
+
+            const progressPercentage = ((prevStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressLine').style.width = `${progressPercentage}%`;
+
+            currentStep = prevStep;
+        }
+
+        function validateStep1() {
+            const requiredFields = ['nama', 'telepon', 'email', 'provinsi', 'kota', 'kecamatan', 'alamat'];
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value) {
+                    element.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    element.style.borderColor = '#ddd';
+                }
+            });
+
+            if (!isValid) {
+                alert('Harap lengkapi semua field yang wajib diisi');
+            }
+
+            return isValid;
+        }
+
+        function validateStep3() {
+            if (!document.getElementById('agreeTerms').checked) {
+                alert('Anda harus menyetujui syarat dan ketentuan terlebih dahulu');
+                return false;
+            }
+
+            const selectedPayment = document.querySelector('.payment-methods .selected').dataset.paymentMethod;
+            let isValid = true;
+
+            if (selectedPayment === 'bank_transfer') {
+                const bankAccount = document.getElementById('bank_account');
+                const bankName = document.getElementById('bank_name');
+                if (!bankAccount.value || !bankName.value) {
+                    if (!bankAccount.value) bankAccount.style.borderColor = 'red';
+                    if (!bankName.value) bankName.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    bankAccount.style.borderColor = '#ddd';
+                    bankName.style.borderColor = '#ddd';
+                }
+            } else if (selectedPayment === 'qris') {
+                const qrisCode = document.getElementById('qris_code');
+                if (!qrisCode.value) {
+                    qrisCode.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    qrisCode.style.borderColor = '#ddd';
+                }
+            }
+
+            if (!isValid) {
+                alert('Harap lengkapi semua field pembayaran yang wajib diisi');
+            }
+
+            return isValid;
+        }
+
+        // Shipping and Payment Selection
+        function selectShipping(element, method) {
+            document.querySelectorAll('.shipping-methods .payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function selectShippingOption(element) {
+            document.querySelectorAll('.shipping-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            loadCartData(); // Update summaries with new shipping cost
+        }
+
+        function selectPayment(element, method) {
+            document.querySelectorAll('.payment-methods .payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.dataset.paymentMethod = method;
+
+            // Show/hide payment details
+            document.querySelectorAll('.payment-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            document.getElementById(`${method}_details`).classList.add('active');
+
+            // Handle QRIS QR code generation
+            const qrisContainer = document.getElementById('qris_code');
+            qrisContainer.innerHTML = ''; // Clear previous QR code
+            if (method === 'qris') {
+                const qrisCodeInput = document.getElementById('qris_code').value;
+                const qrisData = qrisCodeInput || `INDO-20250608-001-${Date.now()}`; // Use input or generate a unique ID
+                new QRCode(qrisContainer, {
+                    text: qrisData,
+                    width: 128,
+                    height: 128
+                });
+            }
+        }
+
+        // Update confirmation details and save points
+        function updateConfirmationDetails() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || {};
+            document.getElementById('confirmNama').textContent = document.getElementById('nama').value;
+            document.getElementById('confirmAlamat').textContent = 
+                `${document.getElementById('alamat').value}, ${document.getElementById('kecamatan').value}, ${document.getElementById('kota').value}, ${document.getElementById('provinsi').value}`;
+
+            const selectedPayment = document.querySelector('.payment-methods .selected .method-name').textContent;
+            document.getElementById('confirmPayment').textContent = selectedPayment;
+
+            let paymentDetails = '';
+            const selectedPaymentMethod = document.querySelector('.payment-methods .selected').dataset.paymentMethod;
+            if (selectedPaymentMethod === 'bank_transfer') {
+                const bankAccount = document.getElementById('bank_account').value;
+                const bankName = document.getElementById('bank_name').value;
+                paymentDetails = `${bankName} - ${bankAccount}`;
+            } else if (selectedPaymentMethod === 'qris') {
+                paymentDetails = `Kode QRIS: ${document.getElementById('qris_code').value}`;
+            }
+            document.getElementById('confirmPaymentDetails').textContent = paymentDetails;
+
+            const shippingCost = document.querySelector('.shipping-option.selected input').id === 'reguler' ? 15000 : 25000;
+            let subtotal = 0;
+            const productNames = [];
+            Object.values(cartItems).forEach(item => {
+                if (item.quantity > 0) {
+                    subtotal += item.price * item.quantity;
+                    productNames.push(`${item.name} (${item.quantity}x)`);
+                }
+            });
+            const total = subtotal + shippingCost;
+            document.getElementById('confirmTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+
+            // Calculate points (1 point per Rp 1,000)
+            const points = Math.floor(total / 1000);
+            document.getElementById('confirmPoints').textContent = `${points} Poin`;
+
+            // Save points to localStorage
+            const purchasePoints = JSON.parse(localStorage.getItem('purchasePoints') || '[]');
+            const purchaseDate = new Date().toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            purchasePoints.push({
+                products: productNames.join(', '),
+                date: purchaseDate,
+                amount: `Rp ${total.toLocaleString('id-ID')}`,
+                points: points
+            });
+            localStorage.setItem('purchasePoints', JSON.stringify(purchasePoints));
+        }
+
+        // Province-City-District Data
+        const locationData = {
+            'Aceh': {
+                'Banda Aceh': ['Baiturrahman', 'Kuta Alam', 'Meuraxa', 'Syiah Kuala'],
+                'Lhokseumawe': ['Banda Sakti', 'Blang Mangat', 'Muara Dua'],
+                'Sabang': ['Sukakarya', 'Sukajaya']
+            },
+            'Sumatera Utara': {
+                'Medan': ['Medan Area', 'Medan Kota', 'Medan Tuntungan', 'Medan Denai'],
+                'Binjai': ['Binjai Kota', 'Binjai Barat', 'Binjai Timur'],
+                'Pematang Siantar': ['Siantar Barat', 'Siantar Utara', 'Siantar Timur']
+            },
+            'Sumatera Barat': {
+                'Padang': ['Padang Barat', 'Padang Timur', 'Koto Tangah'],
+                'Bukittinggi': ['Guguk Panjang', 'Mandiangin Koto Selayan'],
+                'Payakumbuh': ['Payakumbuh Barat', 'Payakumbuh Utara']
+            },
+            'Riau': {
+                'Pekanbaru': ['Bukit Raya', 'Marpoyan Damai', 'Tampan'],
+                'Dumai': ['Dumai Barat', 'Dumai Timur', 'Bukit Kapur']
+            },
+            'Jambi': {
+                'Jambi': ['Kota Baru', 'Telanaipura', 'Pasar Jambi'],
+                'Sungai Penuh': ['Pesisir Bukit', 'Hamparan Rawang']
+            },
+            'Sumatera Selatan': {
+                'Palembang': ['Ilir Barat I', 'Ilir Timur II', 'Seberang Ulu I'],
+                'Lubuklinggau': ['Lubuklinggau Barat I', 'Lubuklinggau Timur II']
+            },
+            'Bengkulu': {
+                'Bengkulu': ['Gading Cempaka', 'Ratu Agung', 'Teluk Segara'],
+                'Curup': ['Curup Tengah', 'Curup Timur']
+            },
+            'Lampung': {
+                'Bandar Lampung': ['Tanjung Karang Pusat', 'Teluk Betung Selatan'],
+                'Metro': ['Metro Pusat', 'Metro Timur']
+            },
+            'DKI Jakarta': {
+                'Jakarta Pusat': ['Gambir', 'Tanah Abang', 'Menteng', 'Senen', 'Cikini'],
+                'Jakarta Barat': ['Cengkareng', 'Grogol Petamburan', 'Taman Sari'],
+                'Jakarta Selatan': ['Kebayoran Baru', 'Pesanggrahan', 'Cilandak'],
+                'Jakarta Timur': ['Cakung', 'Matraman', 'Pulo Gadung'],
+                'Jakarta Utara': ['Koja', 'Tanjung Priok', 'Pademangan']
+            },
+            'Jawa Barat': {
+                'Bandung': ['Andir', 'Cicendo', 'Bandung Kulon', 'Bojongloa Kaler'],
+                'Bogor': ['Bogor Tengah', 'Bogor Selatan', 'Bogor Utara'],
+                'Depok': ['Pancoran Mas', 'Cimanggis', 'Sawangan'],
+                'Bekasi': ['Bekasi Selatan', 'Bekasi Utara', 'Pondok Gede'],
+                'Cirebon': ['Harjamukti', 'Kejaksan', 'Lemahwungkuk']
+            },
+            'Jawa Tengah': {
+                'Semarang': ['Semarang Tengah', 'Semarang Utara', 'Gajahmungkur'],
+                'Surakarta': ['Banjarsari', 'Jebres', 'Laweyan'],
+                'Tegal': ['Tegal Barat', 'Tegal Timur'],
+                'Magelang': ['Magelang Tengah', 'Magelang Selatan']
+            },
+            'DI Yogyakarta': {
+                'Yogyakarta': ['Malioboro', 'Gondokusuman', 'Umbulharjo'],
+                'Sleman': ['Depok', 'Ngaglik', 'Mlati'],
+                'Bantul': ['Sewon', 'Kasihan', 'Bantul']
+            },
+            'Jawa Timur': {
+                'Surabaya': ['Tegalsari', 'Simokerto', 'Genteng', 'Krembangan'],
+                'Malang': ['Klojen', 'Lowokwaru', 'Blimbing'],
+                'Sidoarjo': ['Sidoarjo', 'Taman', 'Waru'],
+                'Madiun': ['Madiun', 'Kartoharjo', 'Taman']
+            },
+            'Banten': {
+                'Tangerang': ['Cipondoh', 'Karawaci', 'Jatiuwung'],
+                'Serang': ['Cipocok Jaya', 'Curug', 'Kasemen'],
+                'Cilegon': ['Ciwandan', 'Citangkil', 'Purwakarta']
+            },
+            'Bali': {
+                'Denpasar': ['Denpasar Selatan', 'Denpasar Utara', 'Denpasar Barat'],
+                'Badung': ['Kuta', 'Kuta Utara', 'Mengwi']
+            },
+            'Nusa Tenggara Barat': {
+                'Mataram': ['Cakranegara', 'Sekarbela', 'Selaparang'],
+                'Bima': ['Rasanae Barat', 'Rasanae Timur']
+            },
+            'Nusa Tenggara Timur': {
+                'Kupang': ['Alak', 'Kelapa Lima', 'Oebobo']
+            },
+            'Kalimantan Barat': {
+                'Pontianak': ['Pontianak Kota', 'Pontianak Selatan'],
+                'Singkawang': ['Singkawang Tengah', 'Singkawang Barat']
+            },
+            'Kalimantan Tengah': {
+                'Palangkaraya': ['Pahandut', 'Jekan Raya']
+            },
+            'Kalimantan Selatan': {
+                'Banjarmasin': ['Banjarmasin Tengah', 'Banjarmasin Barat'],
+                'Banjarbaru': ['Banjarbaru Utara', 'Banjarbaru Selatan']
+            },
+            'Kalimantan Timur': {
+                'Balikpapan': ['Balikpapan Selatan', 'Balikpapan Utara'],
+                'Samarinda': ['Samarinda Seberang', 'Sungai Kunjang']
+            },
+            'Sulawesi Selatan': {
+                'Makassar': ['Makassar', 'Ujung Pandang', 'Wajo'],
+                'Gowa': ['Somba Opu', 'Bontonompo']
+            },
+            'Sulawesi Tenggara': {
+                'Kendari': ['Mandonga', 'Poasia', 'Abeli']
+            },
+            'Sulawesi Utara': {
+                'Manado': ['Wenang', 'Tuminting', 'Mapanget']
+            },
+            'Gorontalo': {
+                'Gorontalo': ['Kota Selatan', 'Kota Utara']
+            },
+            'Sulawesi Tengah': {
+                'Palu': ['Palu Barat', 'Palu Selatan']
+            },
+            'Maluku': {
+                'Ambon': ['Sirimau', 'Teluk Ambon']
+            },
+            'Papua': {
+                'Jayapura': ['Abepura', 'Jayapura Utara']
+            }
+        };
+
+        // Populate Province Dropdown
+        const provinsiSelect = document.getElementById('provinsi');
+        provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+        Object.keys(locationData).forEach(provinsi => {
+            addOption(provinsiSelect, provinsi);
+        });
+
+        // Province-City-District Handlers
+        document.getElementById('provinsi').addEventListener('change', function() {
+            const provinsi = this.value;
+            const kotaSelect = document.getElementById('kota');
+            const kecamatanSelect = document.getElementById('kecamatan');
+            
+            kotaSelect.innerHTML = '<option value="">Pilih Kota/Kabupaten</option>';
+            kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            
+            if (provinsi && locationData[provinsi]) {
+                Object.keys(locationData[provinsi]).forEach(kota => {
+                    addOption(kotaSelect, kota);
+                });
+            }
+        });
+        
+        document.getElementById('kota').addEventListener('change', function() {
+            const provinsi = document.getElementById('provinsi').value;
+            const kota = this.value;
+            const kecamatanSelect = document.getElementById('kecamatan');
+            
+            kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            
+            if (provinsi && kota && locationData[provinsi][kota]) {
+                locationData[provinsi][kota].forEach(kecamatan => {
+                    addOption(kecamatanSelect, kecamatan);
+                });
+            }
+        });
+        
+        function addOption(selectElement, text) {
+            const option = document.createElement('option');
+            option.value = text;
+            option.textContent = text;
+            selectElement.appendChild(option);
+        }
+
+        // Initialize payment method selection
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCartData();
+            selectPayment(document.querySelector('.payment-methods .payment-method.selected'), 'bank_transfer');
+            
+            // Ensure back to home button works
+            const backToHomeBtn = document.querySelector('#section4 .btn-primary');
+            if (backToHomeBtn) {
+                backToHomeBtn.addEventListener('click', function() {
+                    try {
+                        window.location.href = 'produk.html';
+                    } catch (e) {
+                        console.error('Error redirecting to produk.html:', e);
+                        alert('Terjadi kesalahan saat kembali ke halaman produk');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
